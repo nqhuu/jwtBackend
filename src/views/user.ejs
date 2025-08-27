@@ -13,34 +13,37 @@
 
 <body>
     <div class="user-infor-container">
-        <div class="container">
-            <div class="row">
-                <div class="mb-3 mt-3 col-6">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div>
-                    <div class="mb-3 col-6">
-                        <label for="exampleInputPassword1" class="form-label">UserName</label>
-                        <input type="text" class="form-control" id="UserName">
+        <form method="POST" action="/users/create-user">
+            <!--khi click vao nut submit thi trinh duyet se dieu huong ve duong dan trong action vowis method POST-->
+            <div class="container">
+                <div class="row">
+                    <div class="mb-3 mt-3 col-6">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
-                </div>
-                <div>
-                    <div class="mb-3 col-6">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                    <div>
+                        <div class="mb-3 col-6">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
                     </div>
-                </div>
-                <!-- <div class="mb-3 form-check">
+                    <div>
+                        <div class="mb-3 col-6">
+                            <label for="username" class="form-label">UserName</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                    </div>
+                    <!-- <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div> -->
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 
