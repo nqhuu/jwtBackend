@@ -46,7 +46,7 @@
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">STT</th>
                             <th scope="col">Email</th>
                             <th scope="col">UserName</th>
                             <th scope="col">Action</th>
@@ -65,8 +65,14 @@
                                     <%=item.username%>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-warning">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
+                                    <form style="display: inline;" action="/users/edit-user/<%= item.id%>"
+                                        method="POST">
+                                        <button type="button" class="btn btn-warning">Edit</button>
+                                    </form>
+                                    <form style="display: inline;" action="/users/delete-user/<%= item.id%>"
+                                        method="POST">
+                                        <button type="submit" class=" btn btn-danger">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             <% })%>

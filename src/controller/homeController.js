@@ -8,7 +8,6 @@ const handleHelloWord = (req, res) => {
 
 const handleUser = async (req, res) => {
     let userList = await userService.getUserList();
-    console.log(userList)
     return res.render("user.ejs", { userList }) //express sẽ vào folder views để tìm file home.ejs và vì đã cấu hình trong file server nên express mới biết được khu vực lấy
 }
 
@@ -17,13 +16,17 @@ const handleCreateNewUser = (req, res) => {
     let password = req.body.password;
     let username = req.body.username;
 
-    // userService.createNewUser(email, password, username)
-    // Load hash from your password DB.
-    // let checkPassword = bcrypt.compareSync(password, hashPassword); // true
+    userService.createNewUser(email, password, username)
+    return res.redirect("/user");
+}
 
-    return res.send("user-ejs") //express sẽ vào folder views để tìm file home.ejs và vì đã cấu hình trong file server nên express mới biết được khu vực lấy
+const handleDeleteUser = async (req, res) => {
+    // console.log(req.params.id)
+    // let id = req.params.id
+    await userService.deleteUser(req.params.id)
+    return res.redirect("/user");
 }
 
 module.exports = {
-    handleHelloWord, handleUser, handleCreateNewUser
+    handleHelloWord, handleUser, handleCreateNewUser, handleDeleteUser
 }
