@@ -27,6 +27,29 @@ const handleDeleteUser = async (req, res) => {
     return res.redirect("/user");
 }
 
+const getUpdateUserPage = async (req, res) => {
+    let id = req.params.id
+    let user = await userService.getUserById(id);
+    let userData = {};
+    if (user && user.length > 0) {
+        userData = user[0];
+    }
+
+    return res.render("user-update.ejs", { userData }) //express sẽ vào folder views để tìm file home.ejs và vì đã cấu hình trong file server nên express mới biết được khu vực lấy
+
+    // return res.redirect("/user");
+}
+
+const handleUpdateUserPage = async (req, res) => {
+    let email = req.body.email;
+    let username = req.body.username;
+    let id = req.body.id;
+    await userService.updateUserInfor(email, username, id)
+
+    return res.redirect("/user");
+}
+
 module.exports = {
-    handleHelloWord, handleUser, handleCreateNewUser, handleDeleteUser
+    handleHelloWord, handleUser, handleCreateNewUser, handleDeleteUser, getUpdateUserPage,
+    handleUpdateUserPage
 }
