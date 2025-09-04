@@ -21,8 +21,6 @@ const handleCreateNewUser = (req, res) => {
 }
 
 const handleDeleteUser = async (req, res) => {
-    // console.log(req.params.id)
-    // let id = req.params.id
     await userService.deleteUser(req.params.id)
     return res.redirect("/user");
 }
