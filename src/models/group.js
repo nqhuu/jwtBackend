@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Group extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsTo(models.Group, { foreignKey: "groupId" })
-      User.hasMany(models.Project, { foreignKey: "customerId" })
-      User.belongsToMany(models.Project, {
-        through: "Project_User",
-        foreignKey: "userId",  // đây là cột trong Group_Role trỏ về id của bảng hiện tại - User.id
-        otherKey: "projectId", //đây là cột trong Group_Role trỏ về id của bảng đối diện - Project.id
+      Group.hasMany(models.User, { foreignKey: "groupId" })
+
+      Group.belongsToMany(models.Role, {
+        through: "Group_Role",
+        foreignKey: "groupId", // đây là cột trong Group_Role trỏ về id của bảng hiện tại - Group.id
+        otherKey: "roleId", //đây là cột trong Group_Role trỏ về id của bảng đối diện - Role.id
         constraints: true,
         /**
          * Sequelize sẽ tự động đặt foreignKey và otherKey thành khóa ngoại (FOREIGN KEY) trong bảng trung gian (Group_Role) nếu bạn để Sequelize tự generate bảng.
@@ -27,17 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
-  User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    username: DataTypes.STRING,
-    address: DataTypes.STRING,
-    sex: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    groupId: DataTypes.INTEGER
+  Group.init({
+    name: DataTypes.STRING,
+    description: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Group',
   });
-  return User;
+  return Group;
 };

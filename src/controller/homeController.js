@@ -11,12 +11,12 @@ const handleUser = async (req, res) => {
     return res.render("user.ejs", { userList }) //express sẽ vào folder views để tìm file home.ejs và vì đã cấu hình trong file server nên express mới biết được khu vực lấy
 }
 
-const handleCreateNewUser = (req, res) => {
+const handleCreateNewUser = async (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     let username = req.body.username;
 
-    userService.createNewUser(email, password, username)
+    await userService.createNewUser(email, password, username)
     return res.redirect("/user");
 }
 

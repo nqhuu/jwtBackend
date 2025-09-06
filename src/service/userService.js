@@ -86,14 +86,14 @@ const getUserById = async (id) => {
 const updateUserInfor = async (email, username, id) => {
 
     try {
-        user = await db.User.update(
+        await db.User.update(
             { email: email, username: username },
             {
                 where: { id: id, },
             }
         );
     } catch (error) {
-        console.log("error=======>>>>>>>>>", error)
+        console.log("error update=======>>>>>>>>>", error)
     }
 }
 module.exports = {
