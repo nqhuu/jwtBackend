@@ -12,10 +12,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Add headers before the routes are defined -- cấu hình header cho phép kết nối từ bên ngoài vào (CORS)
+
+const allowedOrigins = [
+    process.env.REACT_URL,
+    process.env.REACT_URL_LC,
+    process.env.REACT_URL_IP
+];
 app.use(function (req, res, next) {
 
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        // Website you wish to allow to connect -- chỉ cho phép domain này kết nối đến
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+
     // Website you wish to allow to connect -- chỉ cho phép domain này kết nối đến
-    res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
+    // res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
 
     // Request methods you wish to allow -- cho phép các phương thức này kết nối đến
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
