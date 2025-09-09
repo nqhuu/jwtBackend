@@ -5,6 +5,10 @@ const getAllUsers = (req, res) => {
     });
 }
 
+const handleRegistor = (req, res) => {
+    console.log(req.body)
+}
+
 module.exports = {
-    getAllUsers
+    getAllUsers, handleRegistor
 }
