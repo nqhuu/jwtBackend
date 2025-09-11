@@ -1,6 +1,7 @@
 import db from '../models/index';
 import hashPassword from '../config/hashPassword';
 import bcrypt from 'bcryptjs';
+const { Op } = require('sequelize');
 
 
 const checkUserEmail = async (userEmail) => {
@@ -77,11 +78,16 @@ const handleLogin = async (rawUserData) => {
         let hashPass = hashPassword(password);
         // Kiểm tra valueInput là email hay phone
         // Regex kiểm tra định dạng email
-        const emailRegex = /^\S+@\S+\.\S+$/;
-        emailRegex.test(valueInput)
+        // const emailRegex = /^\S+@\S+\.\S+$/;
+        // emailRegex.test(valueInput)
         // Xử lý đăng nhập bằng email
         let user = await db.User.findOne({
-            where: emailRegex.test(valueInput) ? { email: valueInput } : { phone: valueInput },
+            where: {
+                [Op.or]: [
+                    { email: valueInput },
+                    { phone: valueInput }
+                ]
+            },
             raw: true
         });
         if (user) {
@@ -98,20 +104,14 @@ const handleLogin = async (rawUserData) => {
                         phone: user.phone,
                     }
                 });
-            } else {
-                return ({
-                    EM: 'Tài khoản hoặc mật khẩu không đúng', // error message
-                    EC: '1', //error code
-                    DT: '', // data 
-                })
-            };
-        } else {
-            return ({
-                EM: 'Tài khoản hoặc mật khẩu không đúng', // error message
-                EC: '-1', //error code
-                DT: '', // data 
-            })
-        };
+            }
+        }
+        return ({
+            EM: 'Tài khoản hoặc mật khẩu không đúng', // error message
+            EC: '-1', //error code
+            DT: '', // data 
+        });
+
     } catch (error) {
         console.log("error=======>>>>>>>>>", error)
         return ({
