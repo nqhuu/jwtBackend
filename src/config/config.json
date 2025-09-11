@@ -1,7 +1,6 @@
 {
   "development": {
     "username": "root",
-    "port": 3307,
     "password": "",
     "database": "jwt",
     "host": "127.0.0.1",
