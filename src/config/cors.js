@@ -6,7 +6,7 @@ const configCors = (app) => {
         process.env.REACT_URL,
         process.env.REACT_URL_LC,
         process.env.REACT_URL_IP
-    ];
+    ].filter(Boolean); // lọc bỏ giá trị undefined/null;
     app.use(function (req, res, next) {
         // console.log(req.headers)
         const origin = req.headers.origin;

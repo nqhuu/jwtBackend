@@ -1,7 +1,9 @@
+import { raw } from "body-parser";
 import db from "../models/index";
 
 const getAllUsers = async () => {
     try {
+
         let response = await db.User.findAll({
             // attributes: ['id', 'email', 'username', 'address', 'sex', 'phone', 'groupId']  // chỉ lấy 3 cột này
             attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'groupId'] }, // loại bỏ các cột này
@@ -19,6 +21,47 @@ const getAllUsers = async () => {
                 EC: 1, //error code
                 DT: [], // data
             });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return ({
+            EM: 'error from server', // error message
+            EC: -1, //error code
+            DT: [], // data
+        });
+    }
+}
+
+const getUserWithPagination = async (limit, page) => {
+    try {
+        // console.log(">>>check limit: ", limit, "check page: ", page)
+        if (limit && page) {
+            let offset = (page - 1) * limit;
+            let { count, rows } = await db.User.findAndCountAll({
+                limit: limit,
+                offset: offset,
+                attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'groupId'] }, // loại bỏ các cột này
+                include: [{ model: db.Group, as: "groupData", attributes: ['id', 'name', 'description'] }],  // lấy thông tin nhóm của user
+                raw: true,
+            });
+            if (count) {
+                let totalPages = Math.ceil(count / limit); // tổng số trang
+                return ({
+                    EM: 'Tải dữ liệu thành công', // error message
+                    EC: 0, //error code
+                    DT: {
+                        users: rows,
+                        totalRows: count, // tổng số bản ghi
+                        totalPages: totalPages,
+                    }, // data
+                });
+            }
+
+
+            // console.log('check count: ', count);
+            // console.log('check rows: ', rows);
+            // console.log('check totalPages: ', totalPages);
         }
 
     } catch (error) {
@@ -74,5 +117,6 @@ module.exports = {
     getAllUsers,
     createNewUsers,
     updateUsers,
-    deleteUsers
+    deleteUsers,
+    getUserWithPagination,
 }
