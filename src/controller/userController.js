@@ -57,7 +57,9 @@ const updateFunc = async (req, res) => {
 
 const deleteFunc = async (req, res) => {
     try {
-        let response = await userApiService.deleteUsers(id);
+        const { id } = req.params;
+        const { userId } = req.query;
+        let response = await userApiService.deleteUsers(id, userId);
         if (response) {
             return res.status(200).json(response)
         };

@@ -43,7 +43,7 @@ const getUserWithPagination = async (limit, page) => {
                 offset: offset,
                 attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'groupId'] }, // loại bỏ các cột này
                 include: [{ model: db.Group, as: "groupData", attributes: ['id', 'name', 'description'] }],  // lấy thông tin nhóm của user
-                raw: true,
+                // raw: true,
             });
             if (count) {
                 let totalPages = Math.ceil(count / limit); // tổng số trang
@@ -57,11 +57,6 @@ const getUserWithPagination = async (limit, page) => {
                     }, // data
                 });
             }
-
-
-            // console.log('check count: ', count);
-            // console.log('check rows: ', rows);
-            // console.log('check totalPages: ', totalPages);
         }
 
     } catch (error) {
@@ -100,8 +95,35 @@ const updateUsers = async () => {
     }
 }
 
-const deleteUsers = async () => {
+const deleteUsers = async (id, userId) => {
     try {
+        if (id === userId) {
+            return ({
+                EM: 'Bạn không thể xóa chính mình', // error message
+                EC: 1, //error code
+                DT: [], // data
+            });
+        }
+
+        let user = await db.User.findOne({
+            where: { id: id },
+            // raw: false,
+        });
+
+        if (!user) {
+            return ({
+                EM: 'Người dùng không tồn tại', // error message
+                EC: 2, //error code
+                DT: [], // data
+            });
+        }
+
+        await user.destroy();
+        return ({
+            EM: 'Xóa người dùng thành công', // error message
+            EC: 0, //error code
+            DT: [], // data
+        });
 
     } catch (error) {
         console.log(error);
