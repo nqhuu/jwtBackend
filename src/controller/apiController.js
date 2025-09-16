@@ -17,7 +17,7 @@ const handleRegister = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: 'error from server', // error message
-            EC: '-1', //error code
+            EC: -1, //error code
             DT: error, // data
         })
     };
@@ -32,7 +32,7 @@ const handleLogin = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: 'error from server', // error message
-            EC: '-1', //error code      
+            EC: -1, //error code
         })
     };
 };

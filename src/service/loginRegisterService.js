@@ -34,14 +34,14 @@ const registerNewUser = async (rawUserData) => {
         if (checkEmail === true) {
             return ({
                 EM: 'Email đã tồn tại', // error message
-                EC: '1', //error code
+                EC: 1, //error code
                 DT: '', // data
             })
         }
         if (checkPhone === true) {
             return ({
                 EM: 'Số điện thoại đã tồn tại', // error message
-                EC: '2', //error code
+                EC: 2, //error code
                 DT: '', // data
             })
         }
@@ -58,7 +58,7 @@ const registerNewUser = async (rawUserData) => {
         if (create && create.id) {
             return ({
                 EM: 'Tạo mới user thành công', // error message
-                EC: '0', //error code
+                EC: 0, //error code
                 DT: '', // data 
             })
         }
@@ -66,7 +66,7 @@ const registerNewUser = async (rawUserData) => {
         console.log("error=======>>>>>>>>>", error)
         return ({
             EM: 'error from server', // error message
-            EC: '-1', //error code
+            EC: -1, //error code
             DT: '', // data
         })
     }
@@ -96,7 +96,7 @@ const handleLogin = async (rawUserData) => {
             if (isPasswordCorrect) {
                 return ({
                     EM: 'Đăng nhập thành công', // error message
-                    EC: '0', //error code
+                    EC: 0, //error code
                     DT: {
                         id: user.id,
                         email: user.email,
@@ -108,7 +108,7 @@ const handleLogin = async (rawUserData) => {
         }
         return ({
             EM: 'Tài khoản hoặc mật khẩu không đúng', // error message
-            EC: '-1', //error code
+            EC: -1, //error code
             DT: '', // data 
         });
 
@@ -116,7 +116,7 @@ const handleLogin = async (rawUserData) => {
         console.log("error=======>>>>>>>>>", error)
         return ({
             EM: 'error from server', // error message
-            EC: '-2', //error code
+            EC: -2, //error code
             DT: '', // data
         })
     };
