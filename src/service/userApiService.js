@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 import { raw } from "body-parser";
 import hashPassword from "../config/hashPassword"
 import db from "../models/index";
+import { checkUserPhone, checkUserEmail } from "./loginRegisterService"
 import _ from "lodash";
 
 const getAllUsers = async () => {
@@ -128,15 +129,16 @@ const createNewUsers = async (data, action) => {
                 DT: '', // data
             })
         }
-
+        console.log("data", data)
         let createUser = await db.User.create({
-            email: data.email,
-            username: data.username,
-            password: hashPass,
-            address: data.address,
-            phone: data.phone,
-            groupId: data.groupId,
-            sex: data.sex
+            ...data, password: hashPass
+            // email: data.email,
+            // username: data.username,
+            // password: hashPass,
+            // address: data.address,
+            // phone: data.phone,
+            // groupId: data.groupId,
+            // sex: data.sex
         })
         if (_.isEmpty(createUser)) {
             return ({
@@ -186,12 +188,8 @@ const updateUsers = async (data, action) => {
         }
 
         if (userExist.get({ plain: true }).email !== data.email) {
-
-            let userExistEmail = await db.User.findOne({
-                where: { email: data.email },
-                raw: true
-            })
-            if (userExistEmail) {
+            let checkEmail = await checkUserEmail(data.email);
+            if (checkEmail) {
                 return ({
                     EM: 'Email đã tồn tại', // error message
                     EC: 2, //error code
@@ -201,12 +199,8 @@ const updateUsers = async (data, action) => {
         }
 
         if (userExist.get({ plain: true }).phone !== data.phone) {
-            let userExistPhone = await db.User.findOne({
-                where: { phone: data.phone },
-                raw: true
-
-            })
-            if (userExistPhone) {
+            let checkPhone = await checkUserPhone(data.phone);
+            if (checkPhone) {
                 return ({
                     EM: 'Số điện thoại đã tồn tại', // error message
                     EC: 3, //error code

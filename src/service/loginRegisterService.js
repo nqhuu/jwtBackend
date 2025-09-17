@@ -122,5 +122,6 @@ const handleLogin = async (rawUserData) => {
     };
 };
 module.exports = {
-    registerNewUser, handleLogin
+    registerNewUser, handleLogin, checkUserEmail,
+    checkUserPhone
 }
