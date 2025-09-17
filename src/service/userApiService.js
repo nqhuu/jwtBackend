@@ -186,6 +186,7 @@ const updateUsers = async (data, action) => {
         }
 
         if (userExist.get({ plain: true }).email !== data.email) {
+
             let userExistEmail = await db.User.findOne({
                 where: { email: data.email },
                 raw: true
