@@ -27,7 +27,7 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        let response = await userApiService.createNewUsers(req.body);
+        let response = await userApiService.createNewUsers(req.body, req.query.action);
         if (response) {
             return res.status(200).json(response)
         };
@@ -42,7 +42,7 @@ const createFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        let response = await userApiService.updateUsers(req.body);
+        let response = await userApiService.updateUsers(req.body, req.query.action);
         if (response) {
             return res.status(200).json(response)
         };

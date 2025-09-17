@@ -70,7 +70,7 @@ const getUserById = async (id) => {
         });
         return user.get({ plain: true });
         /**
-         * sử dụng get({ plain: true }); để đưa về object thuần tuý của js, nó chỉ dùng được với object
+         * sử dụng get({ plain: true }); để đưa về object thuần tuý của js, nó chỉ dùng được với object, sử dụng trong update
          * 
          * sử dụng với findByPk
          * user = await db.User.findByPk(id, {
