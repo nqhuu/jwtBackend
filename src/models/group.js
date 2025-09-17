@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "groupId", // đây là cột trong Group_Role trỏ về id của bảng hiện tại - Group.id
         otherKey: "roleId", //đây là cột trong Group_Role trỏ về id của bảng đối diện - Role.id
         constraints: true,
+        as: "groupRole"
         /**
          * Sequelize sẽ tự động đặt foreignKey và otherKey thành khóa ngoại (FOREIGN KEY) trong bảng trung gian (Group_Role) nếu bạn để Sequelize tự generate bảng.
          * Sequelize cũng sẽ tự thêm các option ON DELETE và ON UPDATE mặc định là CASCADE nếu bạn không khai báo thủ công.
