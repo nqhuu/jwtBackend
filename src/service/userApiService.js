@@ -171,8 +171,8 @@ const updateUsers = async (data, action) => {
         let userExist = await db.User.findOne({
             where: {
                 [Op.or]: [
-                    { email: data.email },
-                    { phone: data.phone }
+                    { id: data.id },
+                    // { phone: data.phone }
                 ]
             },
         })
