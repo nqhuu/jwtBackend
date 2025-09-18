@@ -102,6 +102,7 @@ const handleLogin = async (rawUserData) => {
                     EM: 'Đăng nhập thành công', // error message
                     EC: 0, //error code
                     DT: {
+                        userId: user.id,
                         role,
                         access_token: token,
                     }
