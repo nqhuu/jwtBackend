@@ -1,6 +1,8 @@
 import db from '../models/index';
 import hashPassword from '../config/hashPassword';
 import bcrypt from 'bcryptjs';
+import { createJWT, verifyToken } from "../middleware/JWTAction"
+import { getGroupWithRoles } from "../service/JWTService"
 const { Op } = require('sequelize');
 
 
@@ -53,6 +55,7 @@ const registerNewUser = async (rawUserData) => {
             password: hashPass,
             username: username,
             phone: phone,
+            groupId: 3
         })
         // console.log(">>>registerNewUser check create new user: ", create)
         if (create && create.id) {
@@ -75,12 +78,6 @@ const registerNewUser = async (rawUserData) => {
 const handleLogin = async (rawUserData) => {
     try {
         let { valueInput, password } = rawUserData;
-        let hashPass = hashPassword(password);
-        // Kiểm tra valueInput là email hay phone
-        // Regex kiểm tra định dạng email
-        // const emailRegex = /^\S+@\S+\.\S+$/;
-        // emailRegex.test(valueInput)
-        // Xử lý đăng nhập bằng email
         let user = await db.User.findOne({
             where: {
                 [Op.or]: [
@@ -94,14 +91,19 @@ const handleLogin = async (rawUserData) => {
             // Kiểm tra mật khẩu, so sánh mật khẩu người dùng nhập vào với mật khẩu đã mã hóa trong cơ sở dữ liệu
             let isPasswordCorrect = bcrypt.compareSync(password, user.password);
             if (isPasswordCorrect) {
+                let role = await getGroupWithRoles(user)
+                let payload = {
+                    email: user.email,
+                    role,
+                    expiresIn: process.env.JWT_EXPIRES_IN // thời gian hết hạn của token
+                }
+                let token = await createJWT(payload) // tạo token JWT với payload phía trên
                 return ({
                     EM: 'Đăng nhập thành công', // error message
                     EC: 0, //error code
                     DT: {
-                        id: user.id,
-                        email: user.email,
-                        username: user.username,
-                        phone: user.phone,
+                        role,
+                        access_token: token,
                     }
                 });
             }

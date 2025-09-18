@@ -210,12 +210,21 @@ const updateUsers = async (data, action) => {
         }
 
         // gán giá trị mới vào instance
-        userExist.email = data.email;
+        // userExist.email = data.email;
         userExist.username = data.username;
         userExist.address = data.address;
         userExist.sex = data.sex;
         userExist.phone = data.phone;
         userExist.groupId = data.groupId;
+
+        // kiểm tra có thay đổi không sử dụng changed(): Trả về null nếu không có gì thay đổi.Trả về mảng tên các field thay đổi nếu có
+        if (!userExist.changed()) {
+            return ({
+                EM: "Không có dữ liệu nào thay đổi", // error message
+                EC: 3, //error code
+                DT: [], // data
+            });
+        }
 
         let userUpdate = await userExist.save();
         if (!userUpdate) {
@@ -228,7 +237,7 @@ const updateUsers = async (data, action) => {
         return {
             EM: 'Cập nhật thành công',
             EC: 0,
-            DT: []
+            DT: userUpdate
         }
 
     } catch (error) {
