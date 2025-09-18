@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 8686;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//config cooki parser
 app.use(cookieParser());
 
 

@@ -1,4 +1,3 @@
-import { where } from "sequelize/lib/sequelize";
 import db from "../models/index"
 
 
