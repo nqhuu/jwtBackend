@@ -98,6 +98,7 @@ const handleLogin = async (rawUserData) => {
                     expiresIn: process.env.JWT_EXPIRES_IN // thời gian hết hạn của token
                 }
                 let token = await createJWT(payload) // tạo token JWT với payload phía trên
+
                 return ({
                     EM: 'Đăng nhập thành công', // error message
                     EC: 0, //error code
