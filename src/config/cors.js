@@ -28,6 +28,10 @@ const configCors = (app) => {
         // to the API (e.g. in case you use sessions) -- cho phép gửi cookie
         res.setHeader('Access-Control-Allow-Credentials', true);
 
+        // Nếu là preflight request thì trả luôn 200
+        if (req.method === "OPTIONS") {
+            return res.sendStatus(200);
+        }
         // Pass to next layer of middleware
         next();
     });

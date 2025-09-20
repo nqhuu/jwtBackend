@@ -3,6 +3,7 @@ import apiController from '../controller/apiController';
 import userController from '../controller/userController';
 import groupController from "../controller/groupController";
 import genderController from "../controller/genderController";
+import { checkUserJWT, checkUserPermission } from "../middleware/JWTAction"; // các middleware
 
 const router = express.Router();
 
@@ -13,6 +14,9 @@ const router = express.Router();
  */
 
 const initApiRoutes = (app) => {
+
+    router.all("*", checkUserJWT, checkUserPermission)
+
     router.get("/user", apiController.getAllUsers);
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
@@ -26,7 +30,7 @@ const initApiRoutes = (app) => {
     router.get("/group/read", groupController.readFunc);
 
 
-    router.get("/gender/read", genderController.readFunc);
+    // router.get("/gender/read", genderController.readFunc);
 
 
 
