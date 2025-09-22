@@ -104,6 +104,8 @@ const handleLogin = async (rawUserData) => {
                     EC: 0, //error code
                     DT: {
                         userId: user.id,
+                        email: user.email,
+                        username: user.username,
                         role,
                         access_token: token,
                     }
