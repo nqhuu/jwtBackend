@@ -24,7 +24,7 @@ const verifyToken = (token) => {
     return decoded
 }
 
-let nonSecurePaths = ["/login", "/register"]
+let nonSecurePaths = ["/", "/login", "/register"]
 
 // sử dụng middleware để check đăng nhập với token JWT
 const checkUserJWT = (req, res, next) => {

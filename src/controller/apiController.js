@@ -25,7 +25,7 @@ const handleRegister = async (req, res) => {
 const handleLogin = async (req, res) => {
     try {
         let response = await loginRegisterService.handleLogin(req.body);
-        if (response) {
+        if (response && response.DT && response.DT.access_token) {
             res.cookie("jwt", response.DT.access_token, { httpOnly: true /**chỉ có thể đọc từ phía BE */, maxAge: 60 * 60 * 1000 /**thời gian tồn tại */ }); //set cookie từ phía server là 1 obj chưa key "jwt" value "response.DT.access_token"  
             return res.status(200).json(response);
         };

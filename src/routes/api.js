@@ -15,8 +15,7 @@ const router = express.Router();
 
 const initApiRoutes = (app) => {
 
-    router.all("*", checkUserJWT, checkUserPermission)
-
+    router.all("*", checkUserJWT, checkUserPermission) // check tất cả các method và tất cả các routes nếu thoả mã 2 middleware thì mới dc đi tiếp
     router.get("/user", apiController.getAllUsers);
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
