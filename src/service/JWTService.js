@@ -10,7 +10,7 @@ const getGroupWithRoles = async (user) => {
                 model: db.Role,
                 as: "groupRole",
                 attributes: ['id', 'url', 'description'],
-                through: { attributes: [] } //không lấy các giá trị của bảng thứ 3 của quan hệ n-n
+                through: { attributes: [] } //không lấy các giá trị của  bảng thứ 3 của quan hệ n-n
             },  // lấy thông tin nhóm của user
             // order: [["name", "ASC"]], // sắp xếp thứ tự theo bảng chữ cái , lấy cột name để sắp xếp
         });
