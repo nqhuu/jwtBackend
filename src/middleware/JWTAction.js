@@ -35,6 +35,7 @@ const checkUserJWT = (req, res, next) => {
         let decoded = verifyToken(token);// giải mã token
         if (decoded) {
             req.user = decoded; // gán thêm thuộc tính user vào req để xử lý bên service
+            req.token = token; // gán thêm thuộc tính token vào req để xử lý bên service
             next();
         } else {
             return res.status(401).json({
@@ -54,7 +55,7 @@ const checkUserJWT = (req, res, next) => {
 
 //check quyền truy cập tới routes
 const checkUserPermission = (req, res, next) => {
-    if (nonSecurePaths.includes(req.path)) return next();
+    if (nonSecurePaths.includes(req.path) || req.path === "/account") return next();
 
     if (req.user) {
         let email = req.user.email; // thuộc tính user trong req là thuộc tính ta đã gắn thủ công khi login bởi middleware checkUserJWT

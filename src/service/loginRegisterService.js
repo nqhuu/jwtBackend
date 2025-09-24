@@ -94,6 +94,8 @@ const handleLogin = async (rawUserData) => {
                 let role = await getGroupWithRoles(user)
                 let payload = {
                     email: user.email,
+                    username: user.username,
+                    userId: user.id,
                     role,
                     expiresIn: process.env.JWT_EXPIRES_IN // thời gian hết hạn của token
                 }

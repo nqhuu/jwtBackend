@@ -72,10 +72,33 @@ const deleteFunc = async (req, res) => {
     };
 };
 
+const getUserAccount = (req, res) => {
+    try {
+        if (req.user) { // thuộc tính user trong req là thuộc tính ta đã gắn thủ công khi login bởi middleware checkUserJWT         
+            let user = { ...req.user };
+            let token = req.token;
+            return res.status(200).json({
+                EM: 'ok', // error message
+                EC: 0, //error code
+                DT: {
+                    ...user,
+                    access_token: token
+                }, // data
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'error from server', // error message
+            EC: -1, //error code
+            DT: error, // data
+        })
+    }
+}
 
 module.exports = {
     readFunc,
     createFunc,
     updateFunc,
     deleteFunc,
+    getUserAccount
 };
