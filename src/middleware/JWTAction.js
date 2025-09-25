@@ -14,6 +14,14 @@ const createJWT = (payload) => {
     return token
 }
 
+const extractToken = (req) => {
+    let token = null;
+    if (req.headers && req.headers.authorization) {
+        // Bearer tokenString
+        token = req.headers.authorization.split(" ")[1];
+    }
+    return token;
+}
 
 const verifyToken = (token) => {
     let secret = process.env.JWT_SECRET;
@@ -31,9 +39,10 @@ let nonSecurePaths = ["/", "/login", "/register"]
 // sử dụng middleware để check đăng nhập với token JWT
 const checkUserJWT = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) return next(); //nếu truy cập vào 1 trong các đường link trong nonSecurePaths thì sẽ cho qua luôn không cần check user cũng như quyền hạn
-    let cookies = req.cookies; // check cookies gửi về từ fe
-    if (cookies && cookies.jwt) {
-        let token = cookies.jwt;
+    let cookies = req.cookies; // check token gửi về từ cookies fe
+    let tokenFromHeader = extractToken(req); // check token gửi về từ header
+    if ((cookies && cookies.jwt) || tokenFromHeader) {
+        let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader;
         let decoded = verifyToken(token);// giải mã token
         if (decoded) {
             req.user = decoded; // gán thêm thuộc tính user vào req để xử lý bên service

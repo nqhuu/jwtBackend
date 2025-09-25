@@ -21,8 +21,8 @@ const configCors = (app) => {
         // Request methods you wish to allow -- cho phép các phương thức này kết nối đến
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-        // Request headers you wish to allow -- cho phép các header này kết nối đến
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        // Request headers you wish to allow -- cho phép các header này kết nối đến (Authorization sử dụng khi truyền token JWT với Bearer token)
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
 
         // Set to true if you need the website to include cookies in the requests sent
         // to the API (e.g. in case you use sessions) -- cho phép gửi cookie
